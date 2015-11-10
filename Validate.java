@@ -45,16 +45,13 @@ public class Validate {
 
             if( studentsInGroup.size() > maxGroupSize ){
                 penalty += aboveMaxPenalty;
-                //System.out.println( "Above max penalty " + time.getValue());
             }
             if( studentsInGroup.size() < minGroupSize ) {
                 penalty += belowMinPenalty;
-                //System.out.println( "Below min penalty " + time.getValue() );
             }
             for( String studentName: studentsInGroup ){
                 if( studentFile.getPossibleTimesByName(studentName).contains(time.getKey()) ){
                     penalty += possibleChoicePenalty;
-                    //System.out.println( "Possible choice penalty: " + studentName + " with " + time.getKey());
                 }
             }
         }
