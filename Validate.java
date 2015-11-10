@@ -78,8 +78,9 @@ public class Validate {
 
         //Arg[0] is objective function
 
-        //Arg[2] is student file
-        //Arg[3] is solution from solver
+        //Arg[1] is student file
+        //Arg[2] is solution from solver
+
         new Validate(args[0],args[1], args[2]).printRosters();
 
     }
