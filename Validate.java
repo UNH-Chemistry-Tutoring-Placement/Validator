@@ -86,6 +86,7 @@ public class Validate {
         objectiveFile = new ObjectiveFile(objective);
         studentFile = new StudentFile(student);
         solutionFile = new SolutionFile(solution);
+        
         objective.delete();
         student.delete();
         solution.delete();
