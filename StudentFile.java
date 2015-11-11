@@ -24,6 +24,7 @@ public class StudentFile {
     private double version, numberOfStudents;
     private String description;
     private HashMap<String,HashMap<String,String>> studentInfo;
+    private HashMap<String, HashMap<String,String>> studentInfoByEmail;
     private HashMap<String,ArrayList<String>> studentPossibleTimes;
     private HashMap<String,ArrayList<String>> studentGoodTimes;
 
@@ -32,6 +33,7 @@ public class StudentFile {
         studentInfo = new HashMap<>();
         studentPossibleTimes = new HashMap<>();
         studentGoodTimes = new HashMap<>();
+        studentInfoByEmail = new HashMap<>();
         parseStudentFile(file);
     }
 
@@ -40,6 +42,7 @@ public class StudentFile {
         try {
             Scanner studentScanner = new Scanner(file);
             String currentStudent = "";
+            String currentEmail = "";
             while( studentScanner.hasNextLine() ){
                 String nextLine = studentScanner.nextLine();
                 if( nextLine.startsWith("#"))
@@ -65,19 +68,29 @@ public class StudentFile {
                         break;
                     case nameKey:
                         currentStudent = lineScanner.next().trim();
+                        currentEmail = "";
                         studentInfo.put(currentStudent, new HashMap<>());
                         break;
                     case emailKey:
-                        studentInfo.get(currentStudent).put(emailKey,lineScanner.next().trim());
+                        currentEmail = lineScanner.next().trim();
+                        studentInfo.get(currentStudent).put(emailKey, currentEmail );
+                        studentInfoByEmail.put(currentEmail, new HashMap<>());
+                        studentInfoByEmail.get( currentEmail ).put(nameKey, currentStudent);
                         break;
                     case lectureKey:
-                        studentInfo.get(currentStudent).put(lectureKey,lineScanner.next().trim());
+                        String lecture = lineScanner.next().trim();
+                        studentInfo.get(currentStudent).put(lectureKey, lecture);
+                        studentInfoByEmail.get(currentEmail).put(lectureKey, lecture);
                         break;
                     case yearKey:
-                        studentInfo.get(currentStudent).put( yearKey, lineScanner.next().trim());
+                        String year = lineScanner.next().trim();
+                        studentInfo.get(currentStudent).put( yearKey, year);
+                        studentInfoByEmail.get(currentEmail).put( yearKey, year );
                         break;
                     case sexKey:
-                        studentInfo.get( currentStudent ).put( sexKey, lineScanner.next().trim() );
+                        String sex = lineScanner.next().trim();
+                        studentInfo.get( currentStudent ).put( sexKey, sex );
+                        studentInfoByEmail.get(currentEmail).put( sexKey, sex );
                         break;
                     case goodTimeKey:
                         int numGoodTimes = Integer.parseInt(lineScanner.next().trim());
@@ -118,17 +131,26 @@ public class StudentFile {
         studentInfo.append(getStudentYear(name)).append('\n');
         studentInfo.append(getStudentSex(name)).append('\n');
         studentInfo.append(getStudentNumGoodTimes(name)).append('\n');
-        studentInfo.append(getGoodTimesByName(name).toString()).append('\n');
+        studentInfo.append(getGoodTimes(name).toString()).append('\n');
         studentInfo.append(getStudentNumPossibleTimes(name)).append('\n');
-        studentInfo.append( getPossibleTimesByName(name).toString()).append('\n');
+        studentInfo.append( getPossibleTimes(name).toString()).append('\n');
 
         return studentInfo.toString();
+    }
+
+    public String getStudentNameByEmail( String email ){
+        if( studentInfoByEmail.containsKey(email) )
+            return studentInfoByEmail.get(email).get(nameKey);
+        System.err.println( email + " not found in records." );
+        return "";
     }
 
     public String getStudentEmail( String name ){
 
         if( studentInfo.containsKey(name) )
             return studentInfo.get(name).get(emailKey);
+        if( studentInfoByEmail.containsKey(name))
+            return name;
         System.err.println( name + " not found in records.");
         return "";
     }
@@ -136,6 +158,8 @@ public class StudentFile {
     public String getStudentLectureTime( String name ){
         if( studentInfo.containsKey(name))
             return studentInfo.get(name).get(lectureKey);
+        if( studentInfoByEmail.containsKey(name))
+            return studentInfoByEmail.get(name).get(lectureKey);
         System.err.println( name + " not found in records.");
         return "";
     }
@@ -143,6 +167,8 @@ public class StudentFile {
     public String getStudentYear( String name ){
         if( studentInfo.containsKey(name))
             return studentInfo.get(name).get(yearKey);
+        if( studentInfoByEmail.containsKey(name))
+            return studentInfoByEmail.get(name).get(yearKey);
         System.err.println( name + " not found in records.");
         return "";
     }
@@ -150,6 +176,8 @@ public class StudentFile {
     public String getStudentSex( String name ){
         if( studentInfo.containsKey(name))
             return studentInfo.get(name).get(sexKey);
+        if( studentInfoByEmail.containsKey(name))
+            return studentInfoByEmail.get(name).get(sexKey);
         System.err.println( name + " not found in records.");
         return "";
     }
@@ -157,6 +185,8 @@ public class StudentFile {
     public int getStudentNumGoodTimes(String name){
         if( studentInfo.containsKey(name))
             return studentGoodTimes.get(name).size();
+        if( studentInfoByEmail.containsKey(name))
+            return studentGoodTimes.get(getStudentNameByEmail(name)).size();
         System.err.println( name + " not found in records.");
         return -1;
     }
@@ -164,20 +194,26 @@ public class StudentFile {
     public int getStudentNumPossibleTimes( String name ){
         if( studentInfo.containsKey(name))
             return studentPossibleTimes.get(name).size();
+        if( studentInfoByEmail.containsKey(name))
+            return studentPossibleTimes.get(getStudentNameByEmail(name)).size();
         System.err.println( name + " not found in records.");
         return -1;
     }
 
-    public ArrayList<String> getPossibleTimesByName( String name ){
+    public ArrayList<String> getPossibleTimes( String name ){
         if( studentPossibleTimes.containsKey(name))
             return studentPossibleTimes.get(name);
+        if( studentInfoByEmail.containsKey(name))
+            return studentPossibleTimes.get(getStudentNameByEmail(name));
         System.err.println( name + " not found in records.");
         return new ArrayList<>();
     }
 
-    public ArrayList<String> getGoodTimesByName( String name ){
+    public ArrayList<String> getGoodTimes( String name ){
         if( studentGoodTimes.containsKey(name))
             return studentGoodTimes.get(name);
+        if( studentInfoByEmail.containsKey(name))
+            return studentGoodTimes.get(getStudentNameByEmail(name));
         System.err.println( name + " not found in records.");
         return new ArrayList<>();
 
