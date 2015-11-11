@@ -78,7 +78,7 @@ public class Validate {
 
     }
 
-    public void init( String obj, String students, String sol ){
+    private void init( String obj, String students, String sol ){
         File objective = new File( obj );
         File student = new File( students );
         File solution = new File( sol );
@@ -143,7 +143,7 @@ public class Validate {
     }
 
     public static void main( String[] args ){
-        
+
         Validate validate = new Validate();
         validate.printRosters();
     }
