@@ -143,11 +143,7 @@ public class Validate {
     }
 
     public static void main( String[] args ){
-
-        //Arg[0] is objective function
-        //Arg[1] is student file
-        //Arg[2] is solution from solver
-        //new Validate(args[0],args[1], args[2]).printRosters();
+        
         Validate validate = new Validate();
         validate.printRosters();
     }
