@@ -86,7 +86,7 @@ public class Validate {
         objectiveFile = new ObjectiveFile(objective);
         studentFile = new StudentFile(student);
         solutionFile = new SolutionFile(solution);
-        
+
         objective.delete();
         student.delete();
         solution.delete();
@@ -114,10 +114,10 @@ public class Validate {
             studentsInGroup = groups.get(time);
 
             if( studentsInGroup.size() > maxGroupSize ){
-                penalty += aboveMaxPenalty;
+                penalty += (studentsInGroup.size() - maxGroupSize ) * aboveMaxPenalty;
             }
             if( studentsInGroup.size() < minGroupSize ) {
-                penalty += belowMinPenalty;
+                penalty += (minGroupSize - studentsInGroup.size() ) * belowMinPenalty;
             }
             for( String studentName: studentsInGroup ){
                 if( studentFile.getPossibleTimes(studentName).contains(time.getKey()) ){
@@ -129,6 +129,7 @@ public class Validate {
     }
 
     public void printRosters(){
+
         HashMap<Pair<String,String>, ArrayList<String>> groups = solutionFile.getGroups();
         Iterator<Pair<String,String>> mapIter = groups.keySet().iterator();
 
