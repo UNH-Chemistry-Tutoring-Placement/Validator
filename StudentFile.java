@@ -1,5 +1,3 @@
-
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -14,7 +12,7 @@ public class StudentFile {
 
     private final String nameKey = "Name";
     private final String emailKey = "Email";
-    private final String lectureKey = "Lecture";
+    private final String professorKey = "Professor";
     private final String yearKey = "Year";
     private final String sexKey = "Sex";
 
@@ -77,10 +75,10 @@ public class StudentFile {
                         studentInfoByEmail.put(currentEmail, new HashMap<>());
                         studentInfoByEmail.get( currentEmail ).put(nameKey, currentStudent);
                         break;
-                    case lectureKey:
+                    case professorKey:
                         String lecture = lineScanner.next().trim();
-                        studentInfo.get(currentStudent).put(lectureKey, lecture);
-                        studentInfoByEmail.get(currentEmail).put(lectureKey, lecture);
+                        studentInfo.get(currentStudent).put(professorKey, lecture);
+                        studentInfoByEmail.get(currentEmail).put(professorKey, lecture);
                         break;
                     case yearKey:
                         String year = lineScanner.next().trim();
@@ -127,7 +125,7 @@ public class StudentFile {
         StringBuilder studentInfo = new StringBuilder();
         studentInfo.append(name).append('\n');
         studentInfo.append(getStudentEmail(name)).append('\n');
-        studentInfo.append(getStudentLectureTime(name)).append('\n');
+        studentInfo.append(getStudentProfessor(name)).append('\n');
         studentInfo.append(getStudentYear(name)).append('\n');
         studentInfo.append(getStudentSex(name)).append('\n');
         studentInfo.append(getStudentNumGoodTimes(name)).append('\n');
@@ -155,11 +153,11 @@ public class StudentFile {
         return "";
     }
 
-    public String getStudentLectureTime( String name ){
+    public String getStudentProfessor( String name ){
         if( studentInfo.containsKey(name))
-            return studentInfo.get(name).get(lectureKey);
+            return studentInfo.get(name).get(professorKey);
         if( studentInfoByEmail.containsKey(name))
-            return studentInfoByEmail.get(name).get(lectureKey);
+            return studentInfoByEmail.get(name).get(professorKey);
         System.err.println( name + " not found in records.");
         return "";
     }

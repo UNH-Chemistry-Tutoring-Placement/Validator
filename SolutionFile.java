@@ -15,6 +15,7 @@ public class SolutionFile {
     private final String classInfoKey = "Class Info";
     private final String studentInfoKey = "Student Info";
     private final String studentNumKey = "Number of students";
+    private final String solutionCostKey = "Solution cost";
 
 
     private double version;
@@ -25,6 +26,7 @@ public class SolutionFile {
     private HashMap<String,String> studentTimes;
     private HashMap<Pair<String,String>, ArrayList<String>> groups;
     private ArrayList<String> students;
+    private int solutionCost;
 
     public SolutionFile( File solutionFile ){
         studentTimes = new HashMap<>();
@@ -61,6 +63,9 @@ public class SolutionFile {
                     case studentNumKey:
                         numberOfStudents = Integer.parseInt(lineScanner.next().trim());
                         parseStudents(solutionScanner);
+                        break;
+                    case solutionCostKey:
+                        solutionCost = Integer.parseInt(lineScanner.next().trim());
                         break;
                 }
             }
@@ -110,6 +115,10 @@ public class SolutionFile {
         }
 
         return studentTimes.get(name);
+    }
+
+    public int getSolutionCost(){
+        return solutionCost;
     }
 
     /**

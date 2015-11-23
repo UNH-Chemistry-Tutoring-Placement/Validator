@@ -15,6 +15,8 @@ public class ObjectiveFile {
     private final String belowMin = "below min penalty";
     private final String aboveMax = "above max penalty";
     private final String possiblePenalty = "possible choice penalty";
+    private final String diffProfPenalty = "diff professor penalty";
+    private final String genderSoloPenalty = "gender solo penalty";
 
 
     public ObjectiveFile(File objectveFile){
@@ -23,6 +25,7 @@ public class ObjectiveFile {
     }
 
     public String printAll(){
+
         StringBuilder builder = new StringBuilder();
         builder.append(getFormat());
         builder.append('\n');
@@ -68,6 +71,14 @@ public class ObjectiveFile {
 
     public int getPossibleChoicePenalty(){
         return Integer.parseInt(contents.get(possiblePenalty));
+    }
+
+    public int getDiffProfessorPenalty(){
+        return Integer.parseInt(contents.get(diffProfPenalty));
+    }
+
+    public int getGenderSoloPenalty(){
+        return Integer.parseInt(contents.get(genderSoloPenalty));
     }
 
     private void parseObjective( File objectiveFile ){

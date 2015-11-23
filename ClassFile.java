@@ -11,16 +11,16 @@ import java.util.regex.Pattern;
 public class ClassFile {
 
     private HashMap<String,String> contents, theGroups, emails;
-    private ArrayList<String> lectureTimes;
+    private ArrayList<String> professors;
 
     private final String format = "Class Info Format";
     private final String description = "Description";
-    private final String lectures = "Number of lectures";
+    private final String professorCount = "Number of professors";
     private final String groups = "Number of groups";
 
     public ClassFile(File classFile){
         contents = new HashMap<>();
-        lectureTimes = new ArrayList<>();
+        professors = new ArrayList<>();
         theGroups = new HashMap<>();
         emails = new HashMap<>();
         parseClass(classFile);
@@ -32,7 +32,7 @@ public class ClassFile {
         builder.append('\n');
         builder.append(getDescription());
         builder.append('\n');
-        builder.append(getLectures());
+        builder.append(getProfessors());
         builder.append(getNumberOfGroups());
         builder.append('\n');
         builder.append(getAllGroups());
@@ -47,9 +47,9 @@ public class ClassFile {
         return contents.get(description);
     }
 
-    public String getLectures(){
+    public String getProfessors(){
         StringBuilder builder = new StringBuilder();
-        for( String s: lectureTimes ){
+        for( String s: professors ){
             builder.append(s);
             builder.append('\n');
         }
@@ -95,8 +95,8 @@ public class ClassFile {
                 Scanner lineScan = new Scanner(nextLine).useDelimiter(":");
                 String nextToken = lineScan.next();
                 switch( nextToken ){
-                    case lectures:
-                        parseLectures(lineScan,classScanner,nextToken);
+                    case professorCount:
+                        parseProfessors(lineScan,classScanner,nextToken);
                         break;
                     case groups:
                         parseGroups(lineScan,classScanner,nextToken);
@@ -111,13 +111,13 @@ public class ClassFile {
         }
     }
 
-    private void parseLectures( Scanner lineScanner, Scanner classScanner, String nextToken ){
-        String numberOfLectures = lineScanner.next().trim();
-        contents.put(nextToken.trim(),numberOfLectures);
-        int numLectures = Integer.parseInt(numberOfLectures);
-        for( int i = 0; i < numLectures; i++ ) {
+    private void parseProfessors( Scanner lineScanner, Scanner classScanner, String nextToken ){
+        String numberOfProfessors = lineScanner.next().trim();
+        contents.put(nextToken.trim(),numberOfProfessors);
+        int numProfessors = Integer.parseInt(numberOfProfessors);
+        for( int i = 0; i < numProfessors; i++ ) {
             String lectureLine = classScanner.nextLine();
-            lectureTimes.add(extractTimeDay(lectureLine).trim());
+            professors.add(lectureLine.trim());
         }
     }
 

@@ -38,7 +38,7 @@ public class Validate {
             String solution = solutionHeader + split3[ 1 ]; // good
 
             File objFile = File.createTempFile( "obj", "1", new File("."));
-           // File classFile = File.createTempFile("class", "1", new File("."));
+            // File classFile = File.createTempFile("class", "1", new File("."));
             File studFile = File.createTempFile("stud", "1", new File("."));
             File solFile = File.createTempFile("sol", "1", new File("."));
 
@@ -47,9 +47,9 @@ public class Validate {
             writer.close();
 
             // CLASS FILE NOT USED YET
-           // writer = new FileWriter(classFile);
-            //writer.write(classInfo);
-            //writer.close();
+            // writer = new FileWriter(classFile);
+            // writer.write(classInfo);
+            // writer.close();
 
             writer = new FileWriter(studFile);
             writer.write(studentInfo);
@@ -102,6 +102,9 @@ public class Validate {
         int minGroupSize = objectiveFile.getMinGroupSize();
         int maxGroupSize = objectiveFile.getMaxGroupSize();
         int possibleChoicePenalty = objectiveFile.getPossibleChoicePenalty();
+        int differentProfessorPenalty = objectiveFile.getDiffProfessorPenalty();
+        int genderSoloPenalty = objectiveFile.getGenderSoloPenalty();
+
         HashMap<Pair<String,String>, ArrayList<String>> groups = solutionFile.getGroups();
 
         Iterator<Pair<String,String>> mapIter = groups.keySet().iterator();
@@ -110,6 +113,8 @@ public class Validate {
 
         while( mapIter.hasNext() ){
 
+            int femalesInGroup = 0;
+            int malesInGroup = 0;
             time = mapIter.next();
             studentsInGroup = groups.get(time);
 
@@ -120,12 +125,24 @@ public class Validate {
                 penalty += (minGroupSize - studentsInGroup.size() ) * belowMinPenalty;
             }
             for( String studentName: studentsInGroup ){
+                String studentSex = studentFile.getStudentSex(studentName);
+                if( studentSex.equals( "Male"))
+                    malesInGroup++;
+                if( studentSex.equals("Female"));
+                    femalesInGroup++;
                 if( studentFile.getPossibleTimes(studentName).contains(time.getKey()) ){
                     penalty += possibleChoicePenalty;
                 }
             }
+
+            if( (malesInGroup == 1 && femalesInGroup > 1)
+                    || (malesInGroup > 1 && femalesInGroup == 1) ) {
+                penalty += genderSoloPenalty;
+            }
+
         }
-        System.out.println("Penalty: " + penalty + "\n");
+        System.out.println("\nValidator Assigned Penalty: " + penalty );
+        System.out.println("Solver assigned Penalty: " + solutionFile.getSolutionCost() + '\n');
     }
 
     public void printRosters(){
