@@ -16,6 +16,7 @@ public class Validate {
     private final String objHeader = "Objective Function Format";
     private final String studentHeader = "Student Info Format";
     private final String classHeader = "Class Info Format";
+    private boolean debug = true;
 
     /**
      * Init from system.in - cat'ed files
@@ -123,9 +124,13 @@ public class Validate {
 
             if( studentsInGroup.size() > maxGroupSize ){
                 penalty += (studentsInGroup.size() - maxGroupSize ) * aboveMaxPenalty;
+                if( debug )
+                    System.out.println( "Applied max group penalty");
             }
             if( studentsInGroup.size() < minGroupSize ) {
                 penalty += (minGroupSize - studentsInGroup.size() ) * belowMinPenalty;
+                if( debug )
+                    System.out.println( "Applied min group penalty");
             }
             for( String studentName: studentsInGroup ){
                 String studentSex = studentFile.getStudentSex(studentName);
@@ -135,7 +140,8 @@ public class Validate {
                 if( !difProfApplied && !professor.equals(studentFile.getStudentProfessor(studentName))) {
                     penalty += differentProfessorPenalty;
                     difProfApplied = true;
-                    System.out.println( "Applied different professor penalty");
+                    if( debug )
+                        System.out.println( "Applied different professor penalty");
                 }
 
                 if( studentSex.equals( "Male" ))
@@ -145,11 +151,15 @@ public class Validate {
 
                 if( studentFile.getPossibleTimes(studentName).contains(time.getKey()) ){
                     penalty += possibleChoicePenalty;
+                    if( debug )
+                        System.out.println( "Applied possible time penalty");
                 }
             }
 
             if( (malesInGroup == 1 && femalesInGroup > 1)
                     || (malesInGroup > 1 && femalesInGroup == 1) ) {
+                if( debug )
+                    System.out.println( "Applied gender solo penalty");
                 penalty += genderSoloPenalty;
             }
 
