@@ -111,10 +111,11 @@ public class Validate {
         Pair<String,String> time;
         ArrayList<String> studentsInGroup;
         String professor = "";
-        boolean difProfApplied = false;
+
 
         while( mapIter.hasNext() ){
 
+            boolean difProfApplied = false;
             int femalesInGroup = 0;
             int malesInGroup = 0;
             time = mapIter.next();
@@ -134,12 +135,14 @@ public class Validate {
                 if( !difProfApplied && !professor.equals(studentFile.getStudentProfessor(studentName))) {
                     penalty += differentProfessorPenalty;
                     difProfApplied = true;
+                    System.out.println( "Applied different professor penalty");
                 }
 
                 if( studentSex.equals( "Male" ))
                     malesInGroup++;
                 if( studentSex.equals( "Female" ))
                     femalesInGroup++;
+
                 if( studentFile.getPossibleTimes(studentName).contains(time.getKey()) ){
                     penalty += possibleChoicePenalty;
                 }
