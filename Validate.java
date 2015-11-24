@@ -111,12 +111,14 @@ public class Validate {
         Iterator<Pair<String,String>> mapIter = groups.keySet().iterator();
         Pair<String,String> time;
         ArrayList<String> studentsInGroup;
-        String professor = "";
+
 
 
         while( mapIter.hasNext() ){
 
             boolean difProfApplied = false;
+            String professor = "";
+
             int femalesInGroup = 0;
             int malesInGroup = 0;
             time = mapIter.next();
