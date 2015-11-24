@@ -110,6 +110,8 @@ public class Validate {
         Iterator<Pair<String,String>> mapIter = groups.keySet().iterator();
         Pair<String,String> time;
         ArrayList<String> studentsInGroup;
+        String professor = "";
+        boolean difProfApplied = false;
 
         while( mapIter.hasNext() ){
 
@@ -126,9 +128,17 @@ public class Validate {
             }
             for( String studentName: studentsInGroup ){
                 String studentSex = studentFile.getStudentSex(studentName);
-                if( studentSex.equals( "Male"))
+
+                if( professor.equals(""))
+                    professor = studentFile.getStudentProfessor(studentName);
+                if( !difProfApplied && !professor.equals(studentFile.getStudentProfessor(studentName))) {
+                    penalty += differentProfessorPenalty;
+                    difProfApplied = true;
+                }
+
+                if( studentSex.equals( "Male" ))
                     malesInGroup++;
-                if( studentSex.equals("Female"));
+                if( studentSex.equals( "Female" ))
                     femalesInGroup++;
                 if( studentFile.getPossibleTimes(studentName).contains(time.getKey()) ){
                     penalty += possibleChoicePenalty;
