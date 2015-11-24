@@ -16,7 +16,7 @@ public class Validate {
     private final String objHeader = "Objective Function Format";
     private final String studentHeader = "Student Info Format";
     private final String classHeader = "Class Info Format";
-    private boolean debug = true;
+    private boolean debug = false;
 
     /**
      * Init from system.in - cat'ed files
@@ -112,8 +112,6 @@ public class Validate {
         Pair<String,String> time;
         ArrayList<String> studentsInGroup;
 
-
-
         while( mapIter.hasNext() ){
 
             boolean difProfApplied = false;
@@ -139,8 +137,6 @@ public class Validate {
             }
             for( String studentName: studentsInGroup ){
                 String studentSex = studentFile.getStudentSex(studentName);
-
-
 
                 if( professor.equals(""))
                     professor = studentFile.getStudentProfessor(studentName);
@@ -169,7 +165,6 @@ public class Validate {
                     System.out.println( "Applied gender solo penalty");
                 penalty += genderSoloPenalty;
             }
-
         }
         System.out.println("\nValidator Assigned Penalty: " + penalty );
         System.out.println("Solver assigned Penalty: " + solutionFile.getSolutionCost() + '\n');
@@ -194,10 +189,7 @@ public class Validate {
     }
 
     public static void main( String[] args ){
-
         Validate validate = new Validate();
         validate.printRosters();
     }
-
-
 }
