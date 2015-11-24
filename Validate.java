@@ -138,6 +138,8 @@ public class Validate {
             for( String studentName: studentsInGroup ){
                 String studentSex = studentFile.getStudentSex(studentName);
 
+
+
                 if( professor.equals(""))
                     professor = studentFile.getStudentProfessor(studentName);
                 if( !difProfApplied && !professor.equals(studentFile.getStudentProfessor(studentName))) {
@@ -182,6 +184,8 @@ public class Validate {
             System.out.println("--------------------------------------");
             for( String studentEmail: groups.get(taEmailTime) ){
                 System.out.printf( "%-25s %-25s\n", studentFile.getStudentNameByEmail(studentEmail), studentEmail);
+                if( debug )
+                    System.out.println( "Professor: " + studentFile.getStudentProfessor(studentEmail));
             }
             System.out.println();
         }
