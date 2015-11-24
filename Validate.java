@@ -122,6 +122,9 @@ public class Validate {
             time = mapIter.next();
             studentsInGroup = groups.get(time);
 
+            if( debug )
+                System.out.println( "\nGroup: " + time.getKey() + "---" + time.getValue() );
+
             if( studentsInGroup.size() > maxGroupSize ){
                 penalty += (studentsInGroup.size() - maxGroupSize ) * aboveMaxPenalty;
                 if( debug )
