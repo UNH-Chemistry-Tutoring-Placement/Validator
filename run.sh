@@ -3,7 +3,7 @@ string="ILDS"
 
 if [ "$1" == "ILDS" ]
 then
-	cat ../FileFormats/complete-input-2 ../Demo/ILDS.output | java Validate
+	cat ../FileFormats/add_times ../Demo/ILDS.output | java Validate 
 else	
-	cat ../FileFormats/complete-input-2 ../Demo/Local.output | java Validate
+	cat ../FileFormats/add_times ../Demo/Local.output | java Validate
 fi
