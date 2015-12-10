@@ -1,9 +1,13 @@
 #!/bin/bash
 string="ILDS"
 
-if [ "$1" == "ILDS" ]
+alg=$1
+input=$2
+output=$3
+
+if [ "$alg" == "ILDS" ]
 then
-	cat ../FileFormats/add_times ../Demo/ILDS.output | java Validate 
+	cat ../Demo/$input ../Demo/$output | java Validate
 else	
-	cat ../FileFormats/add_times ../Demo/Local.output | java Validate
+	cat ../Demo/$input ../Demo/$output | java Validate
 fi
