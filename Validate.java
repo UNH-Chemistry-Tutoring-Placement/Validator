@@ -137,7 +137,6 @@ public class Validate {
             }
             for( String studentName: studentsInGroup ){
                 String studentSex = studentFile.getStudentSex(studentName);
-
                 if( professor.equals(""))
                     professor = studentFile.getStudentProfessor(studentName);
                 if( !difProfApplied && !professor.equals(studentFile.getStudentProfessor(studentName))) {
@@ -152,9 +151,9 @@ public class Validate {
                 if( studentSex.equals( "Female" ))
                     femalesInGroup++;
 
-                if( studentFile.getPossibleTimes(studentName).contains(time.getKey()) ){
+                if( studentFile.getPossibleTimes(studentName).contains(time.getKey().substring(0,time.getKey().indexOf(","))) ){
                     penalty += possibleChoicePenalty;
-                    if( debug )
+                    if(debug)
                         System.out.println( "Applied possible time penalty");
                 }
             }
